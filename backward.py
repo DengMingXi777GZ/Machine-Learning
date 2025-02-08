@@ -42,11 +42,11 @@ for poch in range(100):
         #将一个包含单个元素的张量转换为 Python 标量。这在你需要获取张量的值作为 Python 数字时非常有用。
         #例如，如果你有一个标量张量 x = torch.tensor([[1.0]])，那么 x.item() 将返回 Python 浮点数 1.0
         w.data=w.data-0.01*w.grad.data 
+        #w.grad在 backward之后才会出现，所以这里无需提前清空梯度，其实位置不太重要，记得更新了w再算loss，在下一次算backward前清空w.grad就好
         #一定要用w.grad.data把grad取出来作为数据，不然grad作为tensor只会做计算图运算
         #使用 w.grad.item() 时，确保梯度张量是标量（只有一个元素），否则会引发错误。
         #使用 w.grad.data 时，可以处理包含多个元素的梯度张量，适用于更广泛的应用场景
-        w.grad.data.zero_() #跑完一次计算图一定要清0，不加的话每个循环的梯度就会相加
-
+       
     print("progress",poch,l.item())
 
 
